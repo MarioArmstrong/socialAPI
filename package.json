@@ -1,5 +1,5 @@
 {
-  "name": "socialnetworkapi",
+  "name": "socialnetapi",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,5 +17,13 @@
     "mongoose": "^6.7.0",
     "mongodb": "^4.5.0",
     "nodemon": "^2.0.20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarioArmstrong/socialAPI.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MarioArmstrong/socialAPI/issues"
+  },
+  "homepage": "https://github.com/MarioArmstrong/socialAPI#readme"
 }
