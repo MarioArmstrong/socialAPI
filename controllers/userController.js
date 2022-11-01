@@ -22,7 +22,7 @@ module.exports = {
       .then(async (user) =>
         !user
           ? res.status(404).json({ message: "No user with that ID" })
-          : res.json({ student })
+          : res.json({ user })
       )
       .catch((err) => {
         console.log(err);
@@ -64,6 +64,35 @@ module.exports = {
       });
   },
   //POST newFriend
+  createNewFriends(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendsId } },
+      { runValidators: true, new: true }
+    )
+      .then((data) =>
+        !data
+          ? res.status(404).json({ message: "No friends with this id!" })
+          : res.json(data)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
 
   //DELETE newFriend
+  deleteNewFriends(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendsId } },
+      { runValidators: true, new: true }
+    )
+      .then((user) => {
+        !user
+          ? res.status(404).json({ message: "No such user exists" })
+          : res.status(200).json({ message: "User was deleted" });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
 };
