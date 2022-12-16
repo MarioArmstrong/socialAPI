@@ -1,5 +1,4 @@
-const { ObjectId } = require("mongoose").Types;
-const { User, Thoughts } = require("../models");
+const { User } = require("../models");
 
 module.exports = {
   //GET all User
@@ -16,7 +15,7 @@ module.exports = {
     }
   },
   //GET single User
-  async getSingleUser(req, res) {
+  getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       .select("-__v")
       .then(async (user) =>
@@ -29,7 +28,7 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
-  //CREATE new User aka PUT
+  //CREATE new User aka POST
   createUser(req, res) {
     User.create(req.body)
       .then((user) => res.json(user))
@@ -70,10 +69,10 @@ module.exports = {
       { $addToSet: { friends: req.params.friendsId } },
       { runValidators: true, new: true }
     )
-      .then((data) =>
-        !data
-          ? res.status(404).json({ message: "No friends with this id!" })
-          : res.json(data)
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "No user with this ID!" })
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },
