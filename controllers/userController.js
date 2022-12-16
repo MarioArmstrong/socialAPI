@@ -1,19 +1,20 @@
-const { User } = require("../models");
+const { Thoughts, User } = require("../models");
 
 module.exports = {
   //GET all User
   async getAllUser(req, res) {
-    try {
-      const users = await User.find();
-      const userObj = {
-        users,
-      };
-      return res.status(200).json(userObj);
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json(err);
-    }
+    User.find()
+      .select("-__v")
+      .populate("thoughts")
+      .then((userData) => {
+        res.json(userData);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
   },
+
   //GET single User
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
@@ -28,12 +29,14 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
+
   //CREATE new User aka POST
   createUser(req, res) {
     User.create(req.body)
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
+
   //UPDATE User aka PUT
   updateUser(req, res) {
     User.findOneAndUpdate(
@@ -72,7 +75,7 @@ module.exports = {
       .then((user) =>
         !user
           ? res.status(404).json({ message: "No user with this ID!" })
-          : res.json(user)
+          : res.status(200).json({ message: "friend was added!" })
       )
       .catch((err) => res.status(500).json(err));
   },
