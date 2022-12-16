@@ -6,6 +6,7 @@ module.exports = {
     User.find()
       .select("-__v")
       .populate("thoughts")
+      .populate("friends")
       .then((userData) => {
         res.json(userData);
       })
@@ -72,11 +73,11 @@ module.exports = {
       { $addToSet: { friends: req.params.friendsId } },
       { runValidators: true, new: true }
     )
-      .then((user) =>
+      .then((user) => {
         !user
           ? res.status(404).json({ message: "No user with this ID!" })
-          : res.status(200).json({ message: "friend was added!" })
-      )
+          : res.status(200).json({ message: "friend was added!" });
+      })
       .catch((err) => res.status(500).json(err));
   },
 
@@ -90,7 +91,7 @@ module.exports = {
       .then((user) => {
         !user
           ? res.status(404).json({ message: "No such user exists" })
-          : res.status(200).json({ message: "User was deleted" });
+          : res.status(200).json({ message: "Friend was deleted" });
       })
       .catch((err) => {
         console.log(err);
