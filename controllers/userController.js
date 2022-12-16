@@ -8,7 +8,7 @@ module.exports = {
       const userObj = {
         users,
       };
-      return res.json(userObj);
+      return res.status(200).json(userObj);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -41,8 +41,8 @@ module.exports = {
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((course) =>
-        !course
+      .then((user) =>
+        !user
           ? res.status(404).json({ message: "No user with this id!" })
           : res.json(user)
       )

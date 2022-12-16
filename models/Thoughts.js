@@ -1,4 +1,4 @@
-const { Schema, Types, model } = require("mongoose");
+const { Schema, model } = require("mongoose");
 const reactionsSchema = require("./Reactions");
 
 const formattedDate = function (date) {
